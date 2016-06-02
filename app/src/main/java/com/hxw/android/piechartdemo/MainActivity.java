@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static Random random = new Random();
-    private PieChart pie_chart1, pie_chart2;
+    private PieChart pieChart1, pieChart2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       pie_chart1 = (PieChart) findViewById(R.id.pie_chart1);
-        pie_chart2 = (PieChart) findViewById(R.id.pie_chart2);
-        pie_chart2.setAnimMode(PieChart.ANIM_MODE_MULTI_SECTION);
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        pieChart1 = (PieChart) findViewById(R.id.pie_chart1);
+        pieChart2 = (PieChart) findViewById(R.id.pie_chart2);
+        pieChart2.setAnimMode(PieChart.ANIM_MODE_MULTI_SECTION);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         pieData.add(new AbstractMap.SimpleEntry<Double, Integer>(random.nextInt(5000) + 0d, 0xFFff6656));
         pieData.add(new AbstractMap.SimpleEntry<Double, Integer>(random.nextInt(5000) + 0d, 0xFF7bbef8));
         pieData.add(new AbstractMap.SimpleEntry<Double, Integer>(random.nextInt(5000) + 0d, 0xFF6b96f5));
-        pie_chart1.setPieData(pieData);
-        pie_chart2.setPieData(pieData);
+        pieChart1.setPieData(pieData);
+        pieChart2.setPieData(pieData);
     }
 }
