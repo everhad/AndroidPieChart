@@ -34,7 +34,7 @@ public class PieChart extends View {
     private float[] angles;
     private final float DEFAULT_WIDTH_FACTOR = 0.3529f;
     private float mRingWidthFactor = DEFAULT_WIDTH_FACTOR;
-    private final int animDuration = 600;
+    private final int animDuration = 3600;
     /** 当动画开始时间重置为0时，在onDraw时会开始动画绘制。 */
     private long animStartTime = 0L;
     private float startAngle = 0f;
@@ -60,11 +60,6 @@ public class PieChart extends View {
      * @param mode 常量ANIM_MODE_XXX。
      */
     public void setAnimMode(int mode) {
-        if (mode < 1) {
-            mode = 1;
-        } else if (mode > 2) {
-            mode = 2;
-        }
         animMode = mode;
     }
 
