@@ -24,6 +24,10 @@ public class PieChart extends View {
      * 饼状图的动画方式：组成整个360度环的各个环分别从其起点画满其弧度。
      */
     public static final int ANIM_MODE_MULTI_SECTION = 2;
+    /**
+     * 饼状图的动画方式：圆环行进的方式从头到尾出现直至完全展示。
+     */
+    public static final int ANIM_MODE_PROCEED = 3;
     private Paint mPaintOuter, mPaintInner;
     private RectF mBigOval, mSmallOval;
     private int[] colors;
@@ -34,7 +38,7 @@ public class PieChart extends View {
     /** 当动画开始时间重置为0时，在onDraw时会开始动画绘制。 */
     private long animStartTime = 0L;
     private float startAngle = 0f;
-    private int animMode = ANIM_MODE_SINGLE_SECTION;
+    private int animMode = ANIM_MODE_PROCEED;
 
     public PieChart(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,10 +81,14 @@ public class PieChart extends View {
         if (duration > animDuration) {
             duration = animDuration;
         }
+        
+        // to reverse: progress = 1f- duration / (animDuration + 0f);
         float progress = duration / (animDuration + 0f);
 
         if (animMode == ANIM_MODE_SINGLE_SECTION) {
             animDrawSingle(canvas, progress);
+        } else if (animMode == ANIM_MODE_PROCEED) {
+            animDrawProceed(canvas, progress);
         } else {
             animDrawMulti(canvas, progress);
         }
@@ -137,6 +145,30 @@ public class PieChart extends View {
                 break;
             }
             start += angles[i];
+        }
+    }
+    
+    /**
+     * 根据进度值，以动画方式画饼状图。动画方式：圆环行进的方式从头到尾出现直至完全展示。
+     * @param canvas
+     * @param progress
+     */
+    private void animDrawProceed(Canvas canvas, float progress) {
+        float sweepStart;
+        float sweep;
+        float end = this.startAngle + 360f * progress;
+        for (int i = angles.length - 1; i >= 0; i--) {
+            sweep = (float) (angles[i] + 0.5f);
+            sweepStart = end - sweep;
+            mPaintOuter.setColor(colors[i]);
+            if (sweepStart >= this.startAngle) {
+                canvas.drawArc(mBigOval, sweepStart, sweep, true, mPaintOuter);
+            } else {
+                sweep = end - this.startAngle;
+                canvas.drawArc(mBigOval, this.startAngle, sweep, true, mPaintOuter);
+                break;
+            }
+            end -= sweep;
         }
     }
 
